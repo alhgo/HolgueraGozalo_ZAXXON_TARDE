@@ -76,10 +76,10 @@ public class PlayerManager : MonoBehaviour
         posX = transform.position.x;
 
         //Obtengo los valores del Gamepad
-        moveY = Input.GetAxis("Vertical");
-        moveX = Input.GetAxis("Horizontal");
+        //moveY = Input.GetAxis("Vertical");
+        //moveX = Input.GetAxis("Horizontal");
         //Rotación 
-        rightStickH = Input.GetAxis("HorizontalJ2");
+        //rightStickH = Input.GetAxis("HorizontalJ2");
         //print(rightStickH);
 
         //print(moveY);
