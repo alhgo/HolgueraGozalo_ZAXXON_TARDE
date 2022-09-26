@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
 {
+
+    //Booleana que me dice si estoy vivo
+    bool alive = true;
+
+
     //Posición de la nave al inicio
     Vector3 navePos = Vector3.zero;
     
@@ -24,13 +29,18 @@ public class PlayerManager : MonoBehaviour
     float limiteHorRight = 10f;
     float limiteHorLeft = -10f;
 
+    bool inLimitV = true;
+    bool inLimitH = true;
+
+
+
     //bool inLimitY = true;
 
 
     // Start is called before the first frame update
     void Start()
     {
-        desplSpeed = 4f;
+        desplSpeed = 8f;
 
 
         //Inicio en 9 de posición y de rotación
@@ -49,8 +59,12 @@ public class PlayerManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-        MoverNave();
+        if (alive)
+        {
+            MoverNave();
+            CheckLimits();
+        }
+           
 
     }
 
@@ -75,25 +89,49 @@ public class PlayerManager : MonoBehaviour
         Vector3 movimientoVertical = Vector3.up * desplSpeed * Time.deltaTime * moveY;
         Vector3 movimientoHorizontal = Vector3.right * desplSpeed * Time.deltaTime * moveX;
 
-
-        if ((posY <= limiteVertUp || moveY < 0) && (posY >= limiteVertDown || moveY > 0))
-        {
+        if(inLimitV)
             transform.Translate(movimientoVertical, Space.World);
-        }
 
-
-
-        if ((posX <= limiteHorRight || moveX < 0) && (posX >= limiteHorLeft || moveX > 0))
-        {
+        if (inLimitH)
             transform.Translate(movimientoHorizontal, Space.World);
-        }
-
 
 
         transform.Rotate(Vector3.forward * Time.deltaTime * -360f * rightStickH);
 
         //transform.eulerAngles = new Vector3(0f, 0f, moveX * -60f);
 
+    }
+
+    void CheckLimits()
+    {
+
+        //Compruebo límites verticales
+        if(posY > limiteVertUp && moveY > 0)
+        {
+            inLimitV = false;
+        }
+        else if(posY < limiteVertDown && moveY < 0)
+        {
+            inLimitV = false;
+        }
+        else
+        {
+            inLimitV = true;
+        }
+
+        //Compruebo límites horizontales
+        if (posX > limiteHorRight && moveX > 0)
+        {
+            inLimitH = false;
+        }
+        else if (posX < limiteHorLeft && moveX < 0)
+        {
+            inLimitH = false;
+        }
+        else
+        {
+            inLimitH = true;
+        }
 
 
     }
