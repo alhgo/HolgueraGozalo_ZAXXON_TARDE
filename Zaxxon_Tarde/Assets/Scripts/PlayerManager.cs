@@ -44,7 +44,7 @@ public class PlayerManager : MonoBehaviour
 
 
         //Inicio en 9 de posición y de rotación
-        transform.position = navePos;
+        //transform.position = navePos;
         transform.rotation = Quaternion.Euler(0f, 0f, 0f);
     }
 
