@@ -12,7 +12,7 @@ public class InitGame : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Instantiate(navePrefab, navePos.position, navePos.rotation);
+        //Instantiate(navePrefab, navePos.position, navePos.rotation);
     }
 
     // Update is called once per frame

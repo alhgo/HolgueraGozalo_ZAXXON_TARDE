@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerManager : MonoBehaviour
 {
 
+
     //Booleana que me dice si estoy vivo
     bool alive = true;
 
@@ -21,6 +22,10 @@ public class PlayerManager : MonoBehaviour
 
     float rightStickH;
 
+    Vector2 move;
+
+    InputActions inputActions;
+
     //Restricción de movimiento
     float posY;
     float posX;
@@ -33,8 +38,27 @@ public class PlayerManager : MonoBehaviour
     bool inLimitH = true;
 
 
+    private void Awake()
+    {
+        inputActions = new InputActions();
 
-    //bool inLimitY = true;
+        inputActions.Player.Disparo.started += _ => Disparar();
+
+        //inputActions.Player.Move.performed += ctx => move = ctx.ReadValue<Vector2>();
+        //inputActions.Player.Move.canceled += _ => move = Vector2.zero;
+
+        inputActions.Player.MoveH.performed += ctx => moveX = ctx.ReadValue<float>();
+        inputActions.Player.MoveH.canceled += _ => moveX = 0f;
+
+        inputActions.Player.MoveV.performed += ctx => moveY = ctx.ReadValue<float>();
+        inputActions.Player.MoveV.canceled += _ => moveY = 0f;
+
+    }
+
+    void Disparar()
+    {
+        print("BOOM");
+    }
 
 
     // Start is called before the first frame update
@@ -59,6 +83,10 @@ public class PlayerManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        //print(move);
+
+
         if (alive)
         {
             MoverNave();
@@ -71,13 +99,15 @@ public class PlayerManager : MonoBehaviour
     void MoverNave()
     {
 
+
+        //print(moveX);
         //Obtengo mi posición en X y en Y
         posY = transform.position.y;
         posX = transform.position.x;
 
         //Obtengo los valores del Gamepad
-        //moveY = Input.GetAxis("Vertical");
-        //moveX = Input.GetAxis("Horizontal");
+        //moveY = move.y;
+        //moveX = move.x;
         //Rotación 
         //rightStickH = Input.GetAxis("HorizontalJ2");
         //print(rightStickH);
@@ -135,4 +165,18 @@ public class PlayerManager : MonoBehaviour
 
 
     }
+
+
+    private void OnEnable()
+    {
+        inputActions.Enable();
+    }
+
+    private void OnDisable()
+    {
+        inputActions.Disable();
+    }
+
+
+
 }
