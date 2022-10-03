@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
 {
-
+    public float speed;
 
     //Booleana que me dice si estoy vivo
     bool alive = true;
@@ -64,6 +64,8 @@ public class PlayerManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+
+        speed = 10f;
         desplSpeed = 8f;
 
 

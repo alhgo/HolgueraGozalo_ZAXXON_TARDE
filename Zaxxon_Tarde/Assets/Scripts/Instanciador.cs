@@ -7,10 +7,18 @@ public class Instanciador : MonoBehaviour
 
     [SerializeField] GameObject obstacle;
 
+    PlayerManager playerManager;
+
+    float intervalo;
+    float speed;
+    float distanciaEntreColumnas;
+
     // Start is called before the first frame update
     void Start()
     {
+        
 
+        distanciaEntreColumnas = 20f;
         StartCoroutine("Corrutina");
         
     }
@@ -32,18 +40,15 @@ public class Instanciador : MonoBehaviour
 
     IEnumerator Corrutina()
     {
-
         while(true)
         {
 
             CrearColumna();
 
-            print("Hola");
 
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(intervalo);
 
         }
-
 
     }
 
