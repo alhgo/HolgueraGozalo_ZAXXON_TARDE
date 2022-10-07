@@ -5,7 +5,7 @@ using UnityEngine;
 public class Instanciador : MonoBehaviour
 {
 
-    [SerializeField] GameObject obstacle;
+    [SerializeField] GameObject[] obstacle;
 
     [SerializeField] PlayerManager playerManager;
 
@@ -67,7 +67,9 @@ public class Instanciador : MonoBehaviour
     {
         float randomX = Random.Range(-40f, 40f);
         Vector3 instPos = new Vector3(randomX, 0f, posZ);
-        Instantiate(obstacle, instPos, Quaternion.identity);
+
+        int randomO = Random.Range(0, obstacle.Length);
+        Instantiate(obstacle[randomO], instPos, Quaternion.identity);
 
     }
 

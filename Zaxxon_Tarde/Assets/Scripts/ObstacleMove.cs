@@ -15,6 +15,7 @@ public class ObstacleMove : MonoBehaviour
         nave = GameObject.Find("NavePrefab");
         playerManager = nave.GetComponent<PlayerManager>();
 
+        print(gameObject.tag);
         
     }
 
@@ -22,6 +23,13 @@ public class ObstacleMove : MonoBehaviour
     void Update()
     {
         speed = playerManager.speed;
+        if (gameObject.tag == "PowerUp")
+        {
+            speed = speed * 0.6f;
+        }
+            
+
+
         transform.Translate(Vector3.back * Time.deltaTime * speed);
 
         Destruir();
