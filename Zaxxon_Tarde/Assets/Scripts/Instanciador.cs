@@ -16,24 +16,47 @@ public class Instanciador : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        playerManager = GameObject.Find("NavePrefab").GetComponent<PlayerManager>();
 
         distanciaEntreColumnas = 20f;
         StartCoroutine("Corrutina");
-        
+
+        CrearObstIntermedios();
+
     }
+
+    void CrearObstIntermedios()
+    {
+
+        float nObstInt = Mathf.Floor( 200 / distanciaEntreColumnas);
+        print(nObstInt);
+        float iniPosInt = 20f;
+        for(int n = 0; n < nObstInt; n++)
+        {
+            //print(n);
+
+            CrearColumna(iniPosInt);
+            iniPosInt += distanciaEntreColumnas;
+
+        }
+
+    }
+
+
+
+
 
     // Update is called once per frame
     void Update()
     {
-        
+        intervalo = distanciaEntreColumnas / playerManager.speed;
     }
 
 
-    void CrearColumna()
+    void CrearColumna(float posZ)
     {
         float randomX = Random.Range(-40f, 40f);
-        Vector3 instPos = new Vector3(randomX, 0f, transform.position.z);
+        Vector3 instPos = new Vector3(randomX, 0f, posZ);
         Instantiate(obstacle, instPos, Quaternion.identity);
 
     }
@@ -43,7 +66,7 @@ public class Instanciador : MonoBehaviour
         while(true)
         {
 
-            CrearColumna();
+            CrearColumna(transform.position.z);
 
 
             yield return new WaitForSeconds(intervalo);
