@@ -7,36 +7,46 @@ public class Instanciador : MonoBehaviour
 
     [SerializeField] GameObject obstacle;
 
-    PlayerManager playerManager;
+    [SerializeField] PlayerManager playerManager;
 
     float intervalo;
     float speed;
+
+
+
+    //Variables para las columna iniciales
     float distanciaEntreColumnas;
+    float posIniInt;
+    float nObstInter;
 
     // Start is called before the first frame update
     void Start()
     {
-        playerManager = GameObject.Find("NavePrefab").GetComponent<PlayerManager>();
-
+        //playerManager = GameObject.Find("NavePrefab").GetComponent<PlayerManager>();
+        //Damnos valores para los obstaculos intermediosa
         distanciaEntreColumnas = 20f;
-        StartCoroutine("Corrutina");
-
+        posIniInt = 40f;
         CrearObstIntermedios();
 
+        StartCoroutine("Corrutina");
+
+        
+
+        intervalo = distanciaEntreColumnas / playerManager.speed;
     }
 
     void CrearObstIntermedios()
     {
-
-        float nObstInt = Mathf.Floor( 200 / distanciaEntreColumnas);
+        float distanciaTotal = transform.position.z - posIniInt;
+        float nObstInt = Mathf.Floor( distanciaTotal / distanciaEntreColumnas);
         print(nObstInt);
-        float iniPosInt = 20f;
+        float posZ = posIniInt  ;
         for(int n = 0; n < nObstInt; n++)
         {
             //print(n);
 
-            CrearColumna(iniPosInt);
-            iniPosInt += distanciaEntreColumnas;
+            CrearColumna(posZ);
+            posZ += distanciaEntreColumnas;
 
         }
 
@@ -49,7 +59,7 @@ public class Instanciador : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        intervalo = distanciaEntreColumnas / playerManager.speed;
+        
     }
 
 
@@ -65,9 +75,12 @@ public class Instanciador : MonoBehaviour
     {
         while(true)
         {
-
+            
+            
             CrearColumna(transform.position.z);
-
+            
+            if(playerManager.speed > 0)
+                intervalo = distanciaEntreColumnas / playerManager.speed;
 
             yield return new WaitForSeconds(intervalo);
 

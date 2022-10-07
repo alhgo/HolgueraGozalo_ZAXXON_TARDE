@@ -37,6 +37,11 @@ public class PlayerManager : MonoBehaviour
     bool inLimitV = true;
     bool inLimitH = true;
 
+    //Varialbes para suavizado
+    Vector3 currentRot;
+    public float smoothTime = 0.3F;
+    private Vector3 velocity = Vector3.zero;
+
 
     private void Awake()
     {
@@ -53,6 +58,7 @@ public class PlayerManager : MonoBehaviour
         inputActions.Player.MoveV.performed += ctx => moveY = ctx.ReadValue<float>();
         inputActions.Player.MoveV.canceled += _ => moveY = 0f;
 
+        speed = 10f;
     }
 
     void Disparar()
@@ -65,7 +71,7 @@ public class PlayerManager : MonoBehaviour
     void Start()
     {
 
-        speed = 10f;
+        
         desplSpeed = 8f;
 
 
@@ -128,10 +134,10 @@ public class PlayerManager : MonoBehaviour
             transform.Translate(movimientoHorizontal, Space.World);
 
 
-        transform.Rotate(Vector3.forward * Time.deltaTime * -360f * rightStickH);
-
-        //transform.eulerAngles = new Vector3(0f, 0f, moveX * -60f);
-
+        //transform.Rotate(Vector3.forward * Time.deltaTime * -360f * rightStickH);
+        Vector3 vectorRot = new Vector3(moveY * -45f, 0, -45f * moveX);
+        currentRot = Vector3.SmoothDamp(currentRot, vectorRot, ref velocity, smoothTime);
+        transform.eulerAngles = currentRot;
     }
 
     void CheckLimits()
