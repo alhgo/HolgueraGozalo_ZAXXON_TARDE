@@ -15,7 +15,7 @@ public class ObstacleMove : MonoBehaviour
         nave = GameObject.Find("NavePrefab");
         playerManager = nave.GetComponent<PlayerManager>();
 
-        print(gameObject.tag);
+        //print(gameObject.tag);
         
     }
 

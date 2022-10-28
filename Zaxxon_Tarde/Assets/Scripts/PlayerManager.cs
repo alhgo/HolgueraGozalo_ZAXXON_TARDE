@@ -29,19 +29,24 @@ public class PlayerManager : MonoBehaviour
     //Restricción de movimiento
     float posY;
     float posX;
-    float limiteVertUp = 10f;
+    float limiteVertUp = 35f;
     float limiteVertDown = 0f;
-    float limiteHorRight = 10f;
-    float limiteHorLeft = -10f;
+    float limiteHorRight = 40f;
+    float limiteHorLeft = -40f;
 
     bool inLimitV = true;
     bool inLimitH = true;
 
     //Varialbes para suavizado
     Vector3 currentRot;
-    public float smoothTime = 0.3F;
+    public float smoothTime = 0.2F;
     private Vector3 velocity = Vector3.zero;
 
+    //El Avion para desactivarlo al chocar
+    [SerializeField] GameObject avionMalla;
+
+    //Componente HudUpdate que contiene los métodos para actualizar la UI
+    [SerializeField] HudUpdate hudUpdate;
 
     private void Awake()
     {
@@ -49,16 +54,16 @@ public class PlayerManager : MonoBehaviour
 
         inputActions.Player.Disparo.started += _ => Disparar();
 
-        //inputActions.Player.Move.performed += ctx => move = ctx.ReadValue<Vector2>();
-        //inputActions.Player.Move.canceled += _ => move = Vector2.zero;
+        inputActions.Player.Move.performed += ctx => move = ctx.ReadValue<Vector2>();
+        inputActions.Player.Move.canceled += _ => move = Vector2.zero;
 
-        inputActions.Player.MoveH.performed += ctx => moveX = ctx.ReadValue<float>();
-        inputActions.Player.MoveH.canceled += _ => moveX = 0f;
+        //inputActions.Player.MoveH.performed += ctx => moveX = ctx.ReadValue<float>();
+        //inputActions.Player.MoveH.canceled += _ => moveX = 0f;
 
-        inputActions.Player.MoveV.performed += ctx => moveY = ctx.ReadValue<float>();
-        inputActions.Player.MoveV.canceled += _ => moveY = 0f;
+        //inputActions.Player.MoveV.performed += ctx => moveY = ctx.ReadValue<float>();
+        //inputActions.Player.MoveV.canceled += _ => moveY = 0f;
 
-        speed = 10f;
+        //GameManager.alive = true;
     }
 
     void Disparar()
@@ -70,14 +75,16 @@ public class PlayerManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
         
-        desplSpeed = 8f;
+        
+        desplSpeed = 24f;
 
 
         //Inicio en 9 de posición y de rotación
         //transform.position = navePos;
         transform.rotation = Quaternion.Euler(0f, 0f, 0f);
+
+        
     }
 
     /*
@@ -93,9 +100,9 @@ public class PlayerManager : MonoBehaviour
     {
 
         //print(move);
+        //print(GameManager.alive);
 
-
-        if (alive)
+        if (GameManager.alive)
         {
             MoverNave();
             CheckLimits();
@@ -114,8 +121,8 @@ public class PlayerManager : MonoBehaviour
         posX = transform.position.x;
 
         //Obtengo los valores del Gamepad
-        //moveY = move.y;
-        //moveX = move.x;
+        moveY = move.y;
+        moveX = move.x;
         //Rotación 
         //rightStickH = Input.GetAxis("HorizontalJ2");
         //print(rightStickH);
@@ -183,6 +190,29 @@ public class PlayerManager : MonoBehaviour
     private void OnDisable()
     {
         inputActions.Disable();
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.tag == "Obstaculo")
+        {
+                  
+            hudUpdate.UpdateLifes();
+
+            if(GameManager.lifes == 0)
+            {
+                GameManager.alive = false;
+                avionMalla.SetActive(false);
+                //print(other.gameObject.name);
+                speed = 0f;
+            }
+            else
+            {
+                Destroy(other.gameObject);
+            }
+            
+        }
+        
     }
 
 

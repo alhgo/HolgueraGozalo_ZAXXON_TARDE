@@ -4,15 +4,18 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    //Booleana que dice si estoy vivo
+    public static bool alive;
 
-    // Update is called once per frame
-    void Update()
+    //Número de vidas que me quedan
+    public static int lifes;
+
+
+
+    public void StartGame()
     {
+        alive = true;
+        lifes = 3;
         
     }
 }

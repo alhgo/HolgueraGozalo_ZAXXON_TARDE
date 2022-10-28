@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 4867497597306306524}
   m_Layer: 0
   m_Name: cube
-  m_TagString: Untagged
+  m_TagString: Obstaculo
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -152,7 +152,7 @@ GameObject:
   - component: {fileID: 7060729159958929766}
   m_Layer: 0
   m_Name: ChupaChups
-  m_TagString: Untagged
+  m_TagString: Obstaculo
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

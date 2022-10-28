@@ -39,7 +39,7 @@ public class Instanciador : MonoBehaviour
     {
         float distanciaTotal = transform.position.z - posIniInt;
         float nObstInt = Mathf.Floor( distanciaTotal / distanciaEntreColumnas);
-        print(nObstInt);
+        //print(nObstInt);
         float posZ = posIniInt  ;
         for(int n = 0; n < nObstInt; n++)
         {
@@ -78,8 +78,16 @@ public class Instanciador : MonoBehaviour
         while(true)
         {
             
+            if(GameManager.alive == true)
+            {
+                CrearColumna(transform.position.z);
+            }
+            else
+            {
+                StopCoroutine("Corrutina");
+            }
             
-            CrearColumna(transform.position.z);
+           
             
             if(playerManager.speed > 0)
                 intervalo = distanciaEntreColumnas / playerManager.speed;

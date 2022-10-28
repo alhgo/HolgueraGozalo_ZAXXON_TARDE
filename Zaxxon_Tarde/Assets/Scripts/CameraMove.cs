@@ -17,7 +17,8 @@ public class CameraMove : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        offsetY = 6.5f;
+        offsetZ = 15f;
     }
 
     // Update is called once per frame
